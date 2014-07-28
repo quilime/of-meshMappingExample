@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	mesh.load("landscape.ply");
+	mesh.load("mesh.ply");
 }
 
 //--------------------------------------------------------------
@@ -77,6 +77,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+  mesh.save("mesh.ply");
   
 }
 
