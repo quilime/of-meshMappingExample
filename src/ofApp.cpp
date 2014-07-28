@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	mesh.load("landscape.ply");
+	mesh.load("landscape-bot.ply");
 }
 
 //--------------------------------------------------------------
