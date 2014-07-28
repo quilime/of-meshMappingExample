@@ -6,7 +6,7 @@ property float x
 property float y
 property float z
 element face 123
-property list uchar uint vertex_index
+property list uchar int vertex_indices
 end_header
 -52.556484 0.000000 -5.427517
 -50.588821 0.000000 14.767426
