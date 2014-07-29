@@ -3,11 +3,14 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
   
+  showHelp = true;
   editMode = false;
-  camMouse = true;
+  camMouse = false;
   mouseDragging = false;
   nearestIndex = 0;
   
+  // load camera setting
+  ofxLoadCamera(cam, "cameraSettings");
   
   // set vertical sync to true
 	ofSetVerticalSync(true);
@@ -24,7 +27,7 @@ void ofApp::setup(){
   ofSetGlobalAmbientColor(ofColor(0,0,0));
   ofSetSmoothLighting(true);
   light.setPointLight();
-  light.setDiffuseColor( ofFloatColor(0.6f, 0.6f, 0.6f) );
+  light.setDiffuseColor( ofFloatColor(0.6f, 0.6f, 0.6f));
   light.setSpecularColor( ofFloatColor(1.0f, 1.0f, 1.0f));
   light.setAttenuation(0.5, 0, 0);
 //  setAttenuation(float constant=1.f, float linear=0.f, float quadratic=0.f))
@@ -40,8 +43,7 @@ void ofApp::setup(){
   ofSetSphereResolution(24);
   
   
-  // load camera setting
-  ofxLoadCamera(cam, "cameraSettings");
+
   
 }
 
@@ -178,14 +180,18 @@ void ofApp::draw(){
   
   
   // draw info text
-  stringstream ss;
-  ss << "Framerate: " << ofToString(ofGetFrameRate(),0) << "\n";
-  ss << "f : Toggle Fullscreen" << "\n";
-  ss << "c : Toggle Camera Control" << (camMouse == true ? " ON" : " OFF") << "\n";
-  ss << "TAB : Toggle Mesh Edit Mode" << (editMode == true ? " ON" : " OFF") << "\n";
-  ofSetColor(ofColor::white);
-  ofDrawBitmapString(ss.str().c_str(), 20, 20);
-  
+  if (showHelp) {
+    stringstream ss;
+    ss << "Framerate: " << ofToString(ofGetFrameRate(),0) << "\n";
+    ss << "f : Toggle Fullscreen" << "\n";
+    ss << "h : Toggle Help Text" << "\n";
+    ss << "c : Toggle Camera Control" << (camMouse == true ? " ON" : " OFF") << "\n";
+    ss << "TAB : Toggle Mesh Edit Mode" << (editMode == true ? " ON" : " OFF") << "\n";
+    ss << "s : Save Mesh and Camera" << "\n";
+    ss << "l : Load Mesh and Camera" << "\n";
+    ofSetColor(ofColor::white);
+    ofDrawBitmapString(ss.str().c_str(), 20, 20);
+  }
 }
 
 //--------------------------------------------------------------
@@ -207,6 +213,17 @@ void ofApp::keyPressed(int key){
     case 's':
       ofxSaveCamera(cam, "cameraSettings");
       mesh.save("mesh-tweaked.ply");
+      break;
+
+    case 'l':
+      ofxLoadCamera(cam, "cameraSettings");
+      mesh.load("mesh-tweaked.ply");
+      camMouse = false;
+      editMode = false;
+      break;
+   
+    case 'h':
+      showHelp = !showHelp;
       break;
       
     // toggle 'TAB' to edit verts

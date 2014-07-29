@@ -21,7 +21,8 @@ public:
   
   bool editMode,
        camMouse,
-       mouseDragging;
+       mouseDragging,
+       showHelp;
   
   ofVec3f nearestVertex;
   
