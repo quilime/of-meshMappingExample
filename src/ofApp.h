@@ -18,6 +18,15 @@ public:
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
   
+  bool editMode;
+  
   ofMesh mesh;
+  ofMaterial material;
+  
+  ofSpherePrimitive sphere;
+  vector<ofMeshFace> triangles;
+  
   ofEasyCam cam;
+  ofLight light;
+  
 };
