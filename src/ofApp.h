@@ -18,7 +18,13 @@ public:
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
   
-  bool editMode;
+  bool editMode,
+       camMouse,
+       mouseDragging;
+  
+  ofVec3f nearestVertex;
+  
+  int nearestIndex;
   
   ofMesh mesh;
   ofMaterial material;

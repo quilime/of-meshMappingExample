@@ -4,6 +4,9 @@
 void ofApp::setup(){
   
   editMode = false;
+  camMouse = true;
+  mouseDragging = false;
+  nearestIndex = 0;
   
   // set vertical sync to true
 	ofSetVerticalSync(true);
@@ -75,12 +78,10 @@ void ofApp::draw(){
   ofFill();
   ofSetColor(255);
   
+  
+  // test sphere
   sphere.setPosition(0, 60, 0);
   sphere.draw();
-  
-  
-
-  
 
   
   // draw mesh faces
@@ -118,24 +119,26 @@ void ofApp::draw(){
   // end camera
   cam.end();
 
-  
   //
   // vert selection
   //
   if (editMode) {
-    // loop through all verticies in mesh and find the nearest vert position and index
-    int n = mesh.getNumVertices();
-    float nearestDistance = 0;
-    ofVec2f nearestVertex;
-    int nearestIndex = 0;
+    
     ofVec2f mouse(mouseX, mouseY);
-    for(int i = 0; i < n; i++) {
-      ofVec3f cur = cam.worldToScreen(mesh.getVertex(i));
-      float distance = cur.distance(mouse);
-      if(i == 0 || distance < nearestDistance) {
-        nearestDistance = distance;
-        nearestVertex = cur;
-        nearestIndex = i;
+    
+    // if not mousedragging, find the nearest vert
+    if (!mouseDragging) {
+      // loop through all verticies in mesh and find the nearest vert position and index
+      int n = mesh.getNumVertices();
+      float nearestDistance = 0;
+      for(int i = 0; i < n; i++) {
+        ofVec3f cur = cam.worldToScreen(mesh.getVertex(i));
+        float distance = cur.distance(mouse);
+        if(i == 0 || distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestVertex = cur;
+          nearestIndex = i;
+        }
       }
     }
     
@@ -152,6 +155,15 @@ void ofApp::draw(){
     ofCircle(nearestVertex, 4);
     ofSetLineWidth(1);
     
+    // move vertex with mouse while dragging
+    if (!camMouse && mouseDragging) {
+      
+      ofVec3f stow = cam.screenToWorld( ofVec3f(mouse.x, mouse.y, nearestVertex.z) );
+      
+      mesh.setVertex(nearestIndex, stow);
+      
+    }
+    
     // draw some text with then nearest vertex index
     ofVec2f offset(10, -10);
     ofDrawBitmapStringHighlight(ofToString(nearestIndex), mouse + offset);
@@ -162,7 +174,9 @@ void ofApp::draw(){
   // draw info text
   stringstream ss;
   ss << "Framerate: " << ofToString(ofGetFrameRate(),0) << "\n";
-  ss << "(f): Toggle Fullscreen" << endl ;
+  ss << "f : Toggle Fullscreen" << "\n";
+  ss << "c : Toggle Camera Control" << (camMouse == true ? " ON" : " OFF") << "\n";
+  ss << "TAB : Toggle Mesh Edit Mode" << (editMode == true ? " ON" : " OFF") << "\n";
   ofSetColor(ofColor::white);
   ofDrawBitmapString(ss.str().c_str(), 20, 20);
   
@@ -173,10 +187,18 @@ void ofApp::keyPressed(int key){
   
 	switch(key) {
       
+    // toggle 'f' for fullscreen
 		case 'f':
 			ofToggleFullscreen();
 			break;
+
+    // toggle 'c' for camera control
+    case 'c':
+      camMouse = !camMouse;
+      cam.getMouseInputEnabled() ? cam.disableMouseInput() : cam.enableMouseInput();
+			break;
       
+    // toggle 'TAB' to edit verts
     case OF_KEY_TAB:
       editMode = !editMode;
       break;
@@ -197,7 +219,7 @@ void ofApp::mouseMoved(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-  
+  mouseDragging = true;
 }
 
 //--------------------------------------------------------------
@@ -207,7 +229,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-  
+  mouseDragging = false;
 }
 
 //--------------------------------------------------------------
