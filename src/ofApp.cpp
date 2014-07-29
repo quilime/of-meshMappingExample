@@ -14,6 +14,7 @@ void ofApp::setup(){
   
   // load mesh
 	mesh.load("landscape-squ.ply");
+//  mesh.load("mesh-tweaked.ply");
   //mesh.smoothNormals( 15 );
 //  mesh.usingIndices();
   
@@ -120,19 +121,16 @@ void ofApp::draw(){
     mesh.drawVertices();
   }
   
-
   
   // end camera
   cam.end();
+  
 
-  //
   // vert selection
-  //
   if (editMode) {
     
+    // create vec2 of the mouse
     ofVec2f mouse(mouseX, mouseY);
-    
-    cout << mesh.getNumVertices() << endl;
     
     // if not mousedragging, find the nearest vert
     if (!mouseDragging) {
@@ -153,7 +151,7 @@ void ofApp::draw(){
     // set color to gray
     ofSetColor(ofColor::gray);
     
-    // draw a line from the nearest vertex to the mouse position ( in screen space )
+    // draw a line from the nearest vertex to the mouse position
     ofLine(nearestVertex, mouse);
     
     // draw a cirle around the nearest vertex
@@ -208,6 +206,7 @@ void ofApp::keyPressed(int key){
       
     case 's':
       ofxSaveCamera(cam, "cameraSettings");
+      mesh.save("mesh-tweaked.ply");
       break;
       
     // toggle 'TAB' to edit verts
