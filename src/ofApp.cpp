@@ -29,8 +29,8 @@ void ofApp::setup(){
   ofSetGlobalAmbientColor(ofColor(0, 0, 0));
   ofSetSmoothLighting(true);
   light.setPointLight();
-  light.setDiffuseColor( ofFloatColor(0.6f, 0.6f, 0.6f));
-  light.setSpecularColor( ofFloatColor(1.0f, 1.0f, 1.0f));
+  light.setDiffuseColor( ofFloatColor(1.0f, 1.0f, 1.0f) );
+  light.setSpecularColor( ofFloatColor(1.0f, 1.0f, 1.0f) );
 //  light.setAttenuation(0.5, 0, 0);
 //  setAttenuation(float constant=1.f, float linear=0.f, float quadratic=0.f))
   
@@ -68,8 +68,6 @@ void ofApp::draw(){
   
 //	glShadeModel(GL_SMOOTH);
 //	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
-
-  
   
   if (editMode) {
     // if editing, show background gradient
@@ -84,9 +82,6 @@ void ofApp::draw(){
   
   // enable depth test so objects draw in correct z-order
   ofEnableDepthTest();
-  //  glEnable(GL_DEPTH_TEST);
-  //	glEnable(GL_CULL_FACE);
-  //  glCullFace(GL_BACK);  
   
   // begin camera
 	cam.begin();
@@ -116,55 +111,48 @@ void ofApp::draw(){
 //	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
 //  shader->end();
   
-  
   // test sphere
-//  sphere.setPosition(0, 60, 0);
-//  sphere.draw();
+  sphere.setPosition(0, 60, 0);
+  sphere.draw();
 
   
   // draw mesh faces
   mesh.draw();
  
-  
-  // draw light position
-  if (editMode) {
-    ofSetColor(255);
-    ofFill();
-    light.draw();
-  }
-  
-  
   // end material
   material.end();
 
   // end lighting
-  light.disable();
   ofDisableLighting();
   
-  
-  // draw verts when editing
+  // draw light position
   if (editMode) {
-    // set point size to 2
-    glPointSize(2);
-    // draw all verts as white
-    ofSetColor(ofColor::white);
-    mesh.drawVertices();
+    ofFill();
+    ofSetColor(light.getDiffuseColor());
+    light.draw();
   }
   
+  // draw verts and wireframe when editing
+  if (editMode) {
+    // draw wireframe
+    ofSetColor(ofColor::yellow);
+    glLineWidth(2);
+    mesh.drawWireframe();
+    
+    // draw verts
+    ofSetColor(ofColor::white);
+    glPointSize(2);
+    mesh.drawVertices();
+  }
   
   // end camera
   cam.end();
   ofDisableDepthTest();
-  //	glDisable(GL_CULL_FACE);
-  //	glDisable(GL_DEPTH_TEST);
-  
 
   // vert selection
   if (editMode) {
-    
     // create vec2 of the mouse for reference
     ofVec2f mouse(mouseX, mouseY);
-    
     // if not dragging the mouse, find the nearest vert
     if (!mouseDragging) {
       // loop through all verticies in mesh and find the nearest vert position and index
@@ -181,8 +169,9 @@ void ofApp::draw(){
       }
     }
     
-    // draw a gray line from the nearest vertex to the mouse position
+    // draw a line from the nearest vertex to the mouse position
     ofSetColor(ofColor::gray);
+    ofSetLineWidth(1);
     ofLine(nearestVertex, mouse);
     
     // draw a cirle around the nearest vertex
