@@ -25,11 +25,13 @@ public:
        showHelp;
   
   ofVec3f nearestVertex;
-  
   int nearestIndex;
+  
+  bool isShaderDirty;
   
   ofMesh mesh;
   ofMaterial material;
+  ofShader* shader;
   
   ofSpherePrimitive sphere;
   vector<ofMeshFace> triangles;

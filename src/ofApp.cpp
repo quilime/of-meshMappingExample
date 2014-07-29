@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
   
+  isShaderDirty = true;
   showHelp = true;
   editMode = false;
   camMouse = false;
@@ -51,17 +52,31 @@ void ofApp::setup(){
 void ofApp::update(){
   
   // move light around
-  //light.setPosition((ofGetWidth() * .5) + cos(ofGetElapsedTimef() * .5)*(ofGetWidth() * .3), ofGetHeight()/2, 0);
-  //light.setPosition(100, 100, 0);
-  light.setPosition(cos(ofGetElapsedTimef()) * 100.0,
-                         40,
-                         sin(ofGetElapsedTimef()) * 100.0);
+  light.setPosition(cos(ofGetElapsedTimef()) * 100.0, 40, sin(ofGetElapsedTimef()) * 100.0);
+  
+  
+  // update shader
+  if (isShaderDirty){
+		
+		GLuint err = glGetError();	// we need this to clear out the error buffer.
+		
+		if (shader != NULL ) delete shader;
+		shader = new ofShader();
+		shader->load("shaders/phong");
+		err = glGetError();	// we need this to clear out the error buffer.
+		ofLogNotice() << "Loaded Shader: " << err;
+    
+		
+		isShaderDirty = false;
+	}
   
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+  
+	glShadeModel(GL_SMOOTH);
+	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
 
   ofEnableDepthTest();
   
@@ -80,17 +95,36 @@ void ofApp::draw(){
   
   // enable lighting
   ofEnableLighting();
+  //  ofEnableSeparateSpecularLight();
   light.enable();
+  //	light.setGlobalPosition(1000, 1000, 1000);
+  //	light.lookAt(ofVec3f(0,0,0));
+
+  glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
   
   // start material
+  ofSetColor(light.getDiffuseColor());
   material.begin();
-  ofFill();
-  ofSetColor(255);
+//  ofFill();
+//  ofSetColor(255);
+  
+	shader->begin();
+  shader->setUniform1f("shouldRenderNormals", 0.0);
+  shader->setUniform1f("shouldUseFlatShading", 0.0);
+  glShadeModel(GL_FLAT);
+  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);		// OpenGL default is GL_LAST_VERTEX_CONVENTION
+	// restores shade model
+	glPopAttrib();
+	// restores vertex convention defaults.
+	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
+  shader->end();
   
   
   // test sphere
-  sphere.setPosition(0, 60, 0);
-  sphere.draw();
+//  sphere.setPosition(0, 60, 0);
+//  sphere.draw();
 
   
   // draw mesh faces
@@ -109,6 +143,10 @@ void ofApp::draw(){
   
   
   // end lighting
+  
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+  
   ofDisableLighting();
   light.disable();
   
