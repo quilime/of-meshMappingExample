@@ -12,7 +12,7 @@ void ofApp::setup(){
 	ofSetVerticalSync(true);
   
   // load mesh
-	mesh.load("landscape.ply");
+	mesh.load("landscape-squ.ply");
   mesh.smoothNormals( 15 );
   
   sphere.setRadius( 20 );
