@@ -9,10 +9,76 @@
 		<string>46</string>
 		<key>objects</key>
 		<dict>
+			<key>6D5588D3FAE44B8D0798BA44</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxCameraSaveLoad.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxCameraSaveLoad/src/ofxCameraSaveLoad.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>DD4B7A6B02FE3A9E6EA4776D</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>FEB2058E7166D8CDCFAD557B</string>
+					<string>6D5588D3FAE44B8D0798BA44</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>src</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>CD15E07442C69BE602D98FD7</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>DD4B7A6B02FE3A9E6EA4776D</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>ofxCameraSaveLoad</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>2C1ED88A3466D1D2AC3DA004</key>
+			<dict>
+				<key>fileRef</key>
+				<string>FEB2058E7166D8CDCFAD557B</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>FEB2058E7166D8CDCFAD557B</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxCameraSaveLoad.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxCameraSaveLoad/src/ofxCameraSaveLoad.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>BB4B014C10F69532006C3DED</key>
 			<dict>
 				<key>children</key>
-				<array />
+				<array>
+					<string>CD15E07442C69BE602D98FD7</string>
+				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
 				<key>name</key>
@@ -395,6 +461,12 @@
 				<string>E4EB6923138AFD0F00A09F29</string>
 				<key>buildSettings</key>
 				<dict>
+					<key>HEADER_SEARCH_PATHS</key>
+					<array>
+						<string>$(OF_CORE_HEADERS)</string>
+						<string>../../../addons/ofxCameraSaveLoad/libs</string>
+						<string>../../../addons/ofxCameraSaveLoad/src</string>
+					</array>
 					<key>ARCHS</key>
 					<string>$(NATIVE_ARCH)</string>
 					<key>CONFIGURATION_BUILD_DIR</key>
@@ -449,6 +521,12 @@
 				<string>E4EB6923138AFD0F00A09F29</string>
 				<key>buildSettings</key>
 				<dict>
+					<key>HEADER_SEARCH_PATHS</key>
+					<array>
+						<string>$(OF_CORE_HEADERS)</string>
+						<string>../../../addons/ofxCameraSaveLoad/libs</string>
+						<string>../../../addons/ofxCameraSaveLoad/src</string>
+					</array>
 					<key>ARCHS</key>
 					<string>$(NATIVE_ARCH)</string>
 					<key>CONFIGURATION_BUILD_DIR</key>
@@ -507,6 +585,7 @@
 				<array>
 					<string>E4B69E200A3A1BDC003C02F2</string>
 					<string>E4B69E210A3A1BDC003C02F2</string>
+					<string>2C1ED88A3466D1D2AC3DA004</string>
 				</array>
 				<key>isa</key>
 				<string>PBXSourcesBuildPhase</string>
