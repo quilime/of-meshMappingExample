@@ -123,13 +123,13 @@ void ofApp::draw(){
   // draw verts and wireframe when editing
   if (editMode) {
     // draw wireframe
-    ofSetColor(ofColor::yellow);
-    glLineWidth(2);
-    mesh.drawWireframe();
+    //ofSetColor(ofColor::yellow);
+    //glLineWidth(2);
+    //mesh.drawWireframe();
     
     // draw verts
     ofSetColor(ofColor::white);
-    glPointSize(2);
+    glPointSize(4);
     mesh.drawVertices();
   }
   
