@@ -32,8 +32,7 @@ void ofApp::setup(){
 	//mesh.load("landscape-round.ply");
   mesh.load("mesh-tweaked.ply");
   
-  
-  
+
   //sceneMesh.append(mesh);
   //sceneMesh.smoothNormals( normalSmoothAmt );
   
