@@ -6,26 +6,36 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
   
+  // of stuff
 	ofSetVerticalSync(true);
   ofSetFrameRate(60);
+  ofEnableDepthTest();
   
+  // settings
   showHelp = true;
-  editMode = false;
+  editMode = true;
   camMouse = false;
   mouseDragging = false;
   nearestIndex = 0;
-  isShaderDirty = true;
+  normalSmoothAmt = 30;
   
-  // load camera settings
-  ofxLoadCamera(cam, "cameraSettings");
-  // initialize scene with mouse input disabled
-  cam.disableMouseInput();
-  
+
+  // set up material
+  // shininess is a value between 0 - 128, 128 being the most shiny //
+	material.setShininess( 120 );
+	material.setSpecularColor(ofColor(255, 255, 255));
+  material.setAmbientColor(ofColor(0, 0, 0));
+  material.setShininess(25.0f);
+
   
   // load mesh
 	mesh.load("landscape-squ.ply");
-//  mesh.load("mesh-tweaked.ply");
-//  mesh.smoothNormals( 15 );
+  //  mesh.load("mesh-tweaked.ply");
+  
+  
+  
+  sceneMesh.append(mesh);
+  sceneMesh.smoothNormals( normalSmoothAmt );
   
   // reference sphere
   sphere.setRadius( 20 );
@@ -40,12 +50,11 @@ void ofApp::setup(){
 //  light.setAttenuation(0.5, 0, 0);
 //  setAttenuation(float constant=1.f, float linear=0.f, float quadratic=0.f))
   
-  // set up material
-  // shininess is a value between 0 - 128, 128 being the most shiny //
-	material.setShininess( 120 );
-	material.setSpecularColor(ofColor(255, 255, 255));
-  material.setAmbientColor(ofColor(0, 0, 0));
-  material.setShininess(25.0f);
+  // load camera settings
+  ofxLoadCamera(cam, "cameraSettings");
+  
+  // start w/ mouse input disabled
+  cam.disableMouseInput();
 }
 
 //--------------------------------------------------------------
@@ -53,35 +62,13 @@ void ofApp::update(){
   
   // move light around
   light.setPosition(cos(ofGetElapsedTimef()) * 100.0, 40, sin(ofGetElapsedTimef()) * 100.0);
-  
-  // update shader
-  if (isShaderDirty){
-		
-		GLuint err = glGetError();	// we need this to clear out the error buffer.
-		
-		if (shader != NULL ) delete shader;
-		shader = new ofShader();
-#ifdef TARGET_OPENGLES
-//    shader->load("shaders/phongGLES");
-    shader->load("shaders/ShaderGLES");
-#else
-    shader->load("shaders/ShaderDesktop");
-//    shader->load("shaders/phongGL");
-#endif
-		err = glGetError();	// we need this to clear out the error buffer.
-		ofLogNotice() << "Loaded Shader: " << err;
-    
-		isShaderDirty = false;
-	}
-  
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
   
-//	glShadeModel(GL_SMOOTH);
-//	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
-  
+
   if (editMode) {
     // if editing, show background gradient
     ofBackgroundGradient(ofColor(64), ofColor(0));
@@ -90,14 +77,10 @@ void ofApp::draw(){
     ofBackground(ofColor(0));
   }
   
-  // set main color to white
-  ofSetColor(255);
-  
-  // enable depth test so objects draw in correct z-order
-  ofEnableDepthTest();
   
   // begin camera
 	cam.begin();
+  
   
   // enable lighting
   ofEnableLighting();
@@ -105,45 +88,24 @@ void ofApp::draw(){
   light.enable();
   //	light.setGlobalPosition(1000, 1000, 1000);
   //	light.lookAt(ofVec3f(0,0,0));
+  
 
-  
   // start material
-  ofSetColor(light.getDiffuseColor());
-  //material.begin();
-  //ofFill();
-  //ofSetColor(255);
-  
-	shader->begin();
-//  shader->setUniform1f("shouldRenderNormals", 1.0);
-//  shader->setUniform1f("shouldUseFlatShading", 1.0);
-  shader->setUniform1f("time", ofGetElapsedTimef() );
-//  glShadeModel(GL_FLAT);
-//  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);		// OpenGL default is GL_LAST_VERTEX_CONVENTION
-	// restores shade model
-//	glPopAttrib();
-	// restores vertex convention defaults.
-//	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
-  
-//  flat shading
-//  glShadeModel(GL_FLAT);
-//  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);		// OpenGL default is GL_LAST_VERTEX_CONVENTION
-  
-// smooth shading
-// glShadeModel(GL_SMOOTH);
-  
+  material.begin();
+  ofSetColor(255);
+  ofFill();
   
   // test sphere
-  sphere.setPosition(0, 60, 0);
-  sphere.draw();
+  //sphere.setPosition(0, 60, 0);
+  //sphere.draw();
   
   // draw mesh faces
-  mesh.draw();
-  
-  // end shader
-  shader->end();
+  if (!editMode) {
+    sceneMesh.draw();
+  }
  
   // end material
-  //material.end();
+  material.end();
 
   // end lighting
   ofDisableLighting();
@@ -170,7 +132,6 @@ void ofApp::draw(){
   
   // end camera
   cam.end();
-  ofDisableDepthTest();
 
   // vert selection
   if (editMode) {
@@ -270,6 +231,11 @@ void ofApp::keyPressed(int key){
     // toggle 'TAB' to edit verts
     case OF_KEY_TAB:
       editMode = !editMode;
+      if (!editMode) {
+        sceneMesh.clear();
+        sceneMesh.append(mesh);
+        sceneMesh.smoothNormals( normalSmoothAmt );
+      }
       break;
 	}
 }

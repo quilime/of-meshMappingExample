@@ -5,6 +5,7 @@
 
 class ofApp : public ofBaseApp{
 public:
+  
   void setup();
   void update();
   void draw();
@@ -24,19 +25,17 @@ public:
        mouseDragging,
        showHelp;
   
+  int normalSmoothAmt;
+  
   ofVec3f nearestVertex;
   int nearestIndex;
   
-  bool isShaderDirty;
-  
   ofMesh mesh;
+  ofMesh sceneMesh;
   ofMaterial material;
-  ofShader* shader;
   
   ofSpherePrimitive sphere;
-  vector<ofMeshFace> triangles;
   
   ofEasyCam cam;
   ofLight light;
-  
 };
