@@ -29,7 +29,7 @@ void ofApp::setup(){
 
   
   // load mesh
-	mesh.load("landscape-squ.ply");
+	mesh.load("landscape-round.ply");
   //  mesh.load("mesh-tweaked.ply");
   
   
@@ -71,7 +71,7 @@ void ofApp::draw(){
 
   if (editMode) {
     // if editing, show background gradient
-    ofBackgroundGradient(ofColor(64), ofColor(0));
+    ofBackgroundGradient(ofColor(80), ofColor(5));
   } else {
     // black bg
     ofBackground(ofColor(0));
@@ -126,6 +126,8 @@ void ofApp::draw(){
     //ofSetColor(ofColor::yellow);
     //glLineWidth(2);
     //mesh.drawWireframe();
+    
+//    mesh.getFace(<#int faceId#>);
     
     // draw verts
     ofSetColor(ofColor::white);
