@@ -1,7 +1,5 @@
 /*
- 
  (c) Gabriel L. Dunne, 2014
- 
 */
 #include "ofApp.h"
 
@@ -63,7 +61,13 @@ void ofApp::update(){
 		
 		if (shader != NULL ) delete shader;
 		shader = new ofShader();
-		shader->load("shaders/phong");
+#ifdef TARGET_OPENGLES
+//    shader->load("shaders/phongGLES");
+    shader->load("shaders/ShaderGLES");
+#else
+    shader->load("shaders/ShaderDesktop");
+//    shader->load("shaders/phongGL");
+#endif
 		err = glGetError();	// we need this to clear out the error buffer.
 		ofLogNotice() << "Loaded Shader: " << err;
     
@@ -105,13 +109,14 @@ void ofApp::draw(){
   
   // start material
   ofSetColor(light.getDiffuseColor());
-  material.begin();
-  ofFill();
-  ofSetColor(255);
+  //material.begin();
+  //ofFill();
+  //ofSetColor(255);
   
 	shader->begin();
-  shader->setUniform1f("shouldRenderNormals", 1.0);
-  shader->setUniform1f("shouldUseFlatShading", 1.0);
+//  shader->setUniform1f("shouldRenderNormals", 1.0);
+//  shader->setUniform1f("shouldUseFlatShading", 1.0);
+  shader->setUniform1f("time", ofGetElapsedTimef() );
 //  glShadeModel(GL_FLAT);
 //  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);		// OpenGL default is GL_LAST_VERTEX_CONVENTION
 	// restores shade model
@@ -138,7 +143,7 @@ void ofApp::draw(){
   shader->end();
  
   // end material
-  material.end();
+  //material.end();
 
   // end lighting
   ofDisableLighting();

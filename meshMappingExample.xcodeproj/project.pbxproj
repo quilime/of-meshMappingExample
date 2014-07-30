@@ -69,9 +69,15 @@
 		688816C119878F2700589E8D /* lofi-bunny.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = "lofi-bunny.ply"; sourceTree = "<group>"; };
 		688816C219878F2700589E8D /* mesh-tweaked.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = "mesh-tweaked.ply"; sourceTree = "<group>"; };
 		688816C319878F2700589E8D /* mesh.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = mesh.ply; sourceTree = "<group>"; };
-		688816C519878F2700589E8D /* phong.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phong.frag; sourceTree = "<group>"; };
-		688816C619878F2700589E8D /* phong.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phong.vert; sourceTree = "<group>"; };
 		688816C719878F2700589E8D /* Untitled.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = Untitled.ply; sourceTree = "<group>"; };
+		688816D019887B3200589E8D /* phongGL.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phongGL.frag; sourceTree = "<group>"; };
+		688816D119887B3200589E8D /* phongGL.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phongGL.vert; sourceTree = "<group>"; };
+		688816D219887B3200589E8D /* phongGLES.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phongGLES.frag; sourceTree = "<group>"; };
+		688816D319887B3200589E8D /* phongGLES.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phongGLES.vert; sourceTree = "<group>"; };
+		688816D419887FEC00589E8D /* ShaderDesktop.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ShaderDesktop.frag; sourceTree = "<group>"; };
+		688816D519887FEC00589E8D /* ShaderDesktop.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ShaderDesktop.vert; sourceTree = "<group>"; };
+		688816D619887FEC00589E8D /* ShaderGLES.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ShaderGLES.frag; sourceTree = "<group>"; };
+		688816D719887FEC00589E8D /* ShaderGLES.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ShaderGLES.vert; sourceTree = "<group>"; };
 		6D5588D3FAE44B8D0798BA44 /* ofxCameraSaveLoad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCameraSaveLoad.h; path = ../../../addons/ofxCameraSaveLoad/src/ofxCameraSaveLoad.h; sourceTree = SOURCE_ROOT; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -148,8 +154,14 @@
 		688816C419878F2700589E8D /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				688816C519878F2700589E8D /* phong.frag */,
-				688816C619878F2700589E8D /* phong.vert */,
+				688816D419887FEC00589E8D /* ShaderDesktop.frag */,
+				688816D519887FEC00589E8D /* ShaderDesktop.vert */,
+				688816D619887FEC00589E8D /* ShaderGLES.frag */,
+				688816D719887FEC00589E8D /* ShaderGLES.vert */,
+				688816D019887B3200589E8D /* phongGL.frag */,
+				688816D119887B3200589E8D /* phongGL.vert */,
+				688816D219887B3200589E8D /* phongGLES.frag */,
+				688816D319887B3200589E8D /* phongGLES.vert */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
