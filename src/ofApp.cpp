@@ -29,8 +29,8 @@ void ofApp::setup(){
 
   
   // load mesh
-	mesh.load("landscape-round.ply");
-  //  mesh.load("mesh-tweaked.ply");
+	//mesh.load("landscape-round.ply");
+  mesh.load("mesh-tweaked.ply");
   
   
   
@@ -125,7 +125,12 @@ void ofApp::draw(){
     // draw wireframe
     //ofSetColor(ofColor::yellow);
     //glLineWidth(2);
-    //mesh.drawWireframe();
+    mesh.drawWireframe();
+    
+    // ofvbo
+    // ofvbomesh
+    // ofxmesh
+    // ofxhemesh
     
 //    mesh.getFace(<#int faceId#>);
     
