@@ -25,7 +25,7 @@ void main( void )
 	
 	vec3 selectedNormal;
 	
-	if (shouldUseFlatShading==1.0){
+	if (shouldUseFlatShading == 1.0){
 		selectedNormal = flatNormal;
 	} else {
 		selectedNormal = normal;
@@ -55,7 +55,7 @@ void main( void )
 	gl_FragColor = final_color;
 	
 	if (shouldRenderNormals == 1.0){
-		gl_FragColor = vec4((N + vec3(1.0, 1.0, 1.0)) / 2.0,1.0);
+		gl_FragColor = vec4((N + vec3(1.0, 1.0, 1.0)) / 2.0, 1.0);
 	}
 
 }

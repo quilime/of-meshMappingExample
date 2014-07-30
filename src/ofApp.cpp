@@ -1,7 +1,15 @@
+/*
+ 
+ (c) Gabriel L. Dunne, 2014
+ 
+*/
 #include "ofApp.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+  
+	ofSetVerticalSync(true);
+  ofSetFrameRate(60);
   
   showHelp = true;
   editMode = false;
@@ -15,7 +23,6 @@ void ofApp::setup(){
   // initialize scene with mouse input disabled
   cam.disableMouseInput();
   
-	ofSetVerticalSync(true);
   
   // load mesh
 	mesh.load("landscape-squ.ply");
@@ -28,6 +35,7 @@ void ofApp::setup(){
   // set up lights
   ofSetGlobalAmbientColor(ofColor(0, 0, 0));
   ofSetSmoothLighting(true);
+  light.setup();
   light.setPointLight();
   light.setDiffuseColor( ofFloatColor(1.0f, 1.0f, 1.0f) );
   light.setSpecularColor( ofFloatColor(1.0f, 1.0f, 1.0f) );
@@ -39,6 +47,7 @@ void ofApp::setup(){
 	material.setShininess( 120 );
 	material.setSpecularColor(ofColor(255, 255, 255));
   material.setAmbientColor(ofColor(0, 0, 0));
+  material.setShininess(25.0f);
 }
 
 //--------------------------------------------------------------
@@ -100,24 +109,33 @@ void ofApp::draw(){
   ofFill();
   ofSetColor(255);
   
-//	shader->begin();
-//  shader->setUniform1f("shouldRenderNormals", 0.0);
-//  shader->setUniform1f("shouldUseFlatShading", 0.0);
+	shader->begin();
+  shader->setUniform1f("shouldRenderNormals", 1.0);
+  shader->setUniform1f("shouldUseFlatShading", 1.0);
 //  glShadeModel(GL_FLAT);
 //  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);		// OpenGL default is GL_LAST_VERTEX_CONVENTION
 	// restores shade model
 //	glPopAttrib();
 	// restores vertex convention defaults.
 //	glProvokingVertex(GL_LAST_VERTEX_CONVENTION);
-//  shader->end();
+  
+//  flat shading
+//  glShadeModel(GL_FLAT);
+//  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);		// OpenGL default is GL_LAST_VERTEX_CONVENTION
+  
+// smooth shading
+// glShadeModel(GL_SMOOTH);
+  
   
   // test sphere
   sphere.setPosition(0, 60, 0);
   sphere.draw();
-
   
   // draw mesh faces
   mesh.draw();
+  
+  // end shader
+  shader->end();
  
   // end material
   material.end();
@@ -178,7 +196,11 @@ void ofApp::draw(){
     ofNoFill();
     ofSetColor(ofColor::magenta);
     ofSetLineWidth(2);
-    ofCircle(nearestVertex, 4);
+    if (mouseDragging) {
+      ofCircle(mouse, 4);
+    } else {
+      ofCircle(nearestVertex, 4);
+    }
     ofSetLineWidth(1);
     
     // edit position of nearest vert with mousedrag
