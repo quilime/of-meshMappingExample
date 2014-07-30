@@ -17,7 +17,7 @@ void ofApp::setup(){
   camMouse = false;
   mouseDragging = false;
   nearestIndex = 0;
-  normalSmoothAmt = 30;
+  normalSmoothAmt = 20;
   
 
   // set up material
@@ -34,8 +34,8 @@ void ofApp::setup(){
   
   
   
-  sceneMesh.append(mesh);
-  sceneMesh.smoothNormals( normalSmoothAmt );
+  //sceneMesh.append(mesh);
+  //sceneMesh.smoothNormals( normalSmoothAmt );
   
   // reference sphere
   sphere.setRadius( 20 );
@@ -112,6 +112,9 @@ void ofApp::draw(){
   
   // draw light position
   if (editMode) {
+    ofSetColor(ofColor::gray);
+    ofSetLineWidth(1);
+    ofLine(light.getPosition(), ofVec3f(0));
     ofFill();
     ofSetColor(light.getDiffuseColor());
     light.draw();
