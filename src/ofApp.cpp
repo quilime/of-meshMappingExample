@@ -73,7 +73,7 @@ void ofApp::update(){
 
   ofPoint sp;
   sp.set(400, 0, 0);
-  sp.rotate( ofGetElapsedTimef() * 10 , ofVec3f(0, 0, 1));
+  sp.rotate( ofGetElapsedTimef() * 7 , ofVec3f(0, 0, 1));
   sun.setPosition(sp.x, sp.y, sp.z);
   sun.lookAt(ofVec3f(0,0,0));
   
@@ -85,7 +85,7 @@ void ofApp::update(){
   //moon.rotateAround(ofGetElapsedTimef(), ofVec3f(1,0,0), ofVec3(0,0,0))
   ofPoint mp;
   mp.set(400, 0, 0);
-  mp.rotate( ofGetElapsedTimef() * 10 + 180 , ofVec3f(0, 0, 1));
+  mp.rotate( ofGetElapsedTimef() * 7 + 180 , ofVec3f(0, 0, 1));
 //  moon.setPosition(0, (cos(ofGetElapsedTimef())) * d , sin(ofGetElapsedTimef()) * d);
   moon.setPosition(mp.x, mp.y, mp.z);
   moon.lookAt(ofVec3f(0, 0, 0));
