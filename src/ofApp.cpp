@@ -47,8 +47,8 @@ void ofApp::setup(){
   ofSetSmoothLighting(true);
   sun.setup();
   sun.setDirectional();
-  sun.setDiffuseColor( ofFloatColor(0.8f, 0.8f, 0.8f) );
-  sun.setSpecularColor( ofFloatColor(0.7f, 0.7f, 0.7f) );
+  sun.setDiffuseColor( ofFloatColor(0.6f, 0.6f, 0.6f) );
+  sun.setSpecularColor( ofFloatColor(0.3f, 0.3f, 0.3f) );
   
   moon.setup();
   moon.setDirectional();
