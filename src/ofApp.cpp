@@ -12,7 +12,7 @@ void ofApp::setup(){
   ofEnableDepthTest();
   
   // settings
-  showHelp = true;
+  showHelp = false;
   editMode = true;
   camMouse = false;
   mouseDragging = false;
@@ -47,7 +47,7 @@ void ofApp::setup(){
   ofSetSmoothLighting(true);
   sun.setup();
   sun.setDirectional();
-  sun.setDiffuseColor( ofFloatColor(0.6f, 0.6f, 0.6f) );
+  sun.setDiffuseColor( ofFloatColor(0.5f, 0.5f, 0.5f) );
   sun.setSpecularColor( ofFloatColor(0.3f, 0.3f, 0.3f) );
   
   moon.setup();
@@ -72,8 +72,8 @@ void ofApp::update(){
   float d = 400.0f; // distance from center
 
   ofPoint sp;
-  sp.set(0, 0, 400);
-  sp.rotate( ofGetElapsedTimef() * 10 , ofVec3f(1, 0, 0));
+  sp.set(400, 0, 0);
+  sp.rotate( ofGetElapsedTimef() * 10 , ofVec3f(0, 0, 1));
   sun.setPosition(sp.x, sp.y, sp.z);
   sun.lookAt(ofVec3f(0,0,0));
   
@@ -84,8 +84,8 @@ void ofApp::update(){
   // move moon around
   //moon.rotateAround(ofGetElapsedTimef(), ofVec3f(1,0,0), ofVec3(0,0,0))
   ofPoint mp;
-  mp.set(0, 0, 400);
-  mp.rotate( ofGetElapsedTimef() * 10 + 180 , ofVec3f(1, 0, 0));
+  mp.set(400, 0, 0);
+  mp.rotate( ofGetElapsedTimef() * 10 + 180 , ofVec3f(0, 0, 1));
 //  moon.setPosition(0, (cos(ofGetElapsedTimef())) * d , sin(ofGetElapsedTimef()) * d);
   moon.setPosition(mp.x, mp.y, mp.z);
   moon.lookAt(ofVec3f(0, 0, 0));
@@ -161,7 +161,8 @@ void ofApp::draw(){
     // draw wireframe
     ofSetColor(ofColor::yellow);
     glLineWidth(2);
-    sceneMesh.drawWireframe();
+
+//    sceneMesh.drawWireframe();
     
     // ofvbo
     // ofvbomesh
