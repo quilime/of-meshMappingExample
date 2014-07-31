@@ -37,5 +37,6 @@ public:
   ofSpherePrimitive sphere;
   
   ofEasyCam cam;
-  ofLight light;
+  ofLight sun;
+  ofLight moon;
 };

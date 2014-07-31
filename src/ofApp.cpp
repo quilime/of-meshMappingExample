@@ -19,18 +19,21 @@ void ofApp::setup(){
   nearestIndex = 0;
   normalSmoothAmt = 20;
   
+  
+
+  
 
   // set up material
   // shininess is a value between 0 - 128, 128 being the most shiny //
 	material.setShininess( 120 );
 	material.setSpecularColor(ofColor(255, 255, 255));
   material.setAmbientColor(ofColor(0, 0, 0));
-  material.setShininess(25.0f);
+  material.setShininess(10.0f);
 
   
   // load mesh
-	//mesh.load("landscape-round.ply");
-  mesh.load("mesh-tweaked.ply");
+//	mesh.load("CircleDistortion.ply");
+  mesh.load("landscape-round.ply");
   
 
   //sceneMesh.append(mesh);
@@ -42,10 +45,16 @@ void ofApp::setup(){
   // set up lights
   ofSetGlobalAmbientColor(ofColor(0, 0, 0));
   ofSetSmoothLighting(true);
-  light.setup();
-  light.setPointLight();
-  light.setDiffuseColor( ofFloatColor(1.0f, 1.0f, 1.0f) );
-  light.setSpecularColor( ofFloatColor(1.0f, 1.0f, 1.0f) );
+  sun.setup();
+  sun.setDirectional();
+  sun.setDiffuseColor( ofFloatColor(0.8f, 0.8f, 0.8f) );
+  sun.setSpecularColor( ofFloatColor(0.7f, 0.7f, 0.7f) );
+  
+  moon.setup();
+  moon.setDirectional();
+  moon.setDiffuseColor( ofFloatColor(0.0f, 0.0f, 0.2f) );
+  moon.setSpecularColor( ofFloatColor(0.0f, 0.0f, 0.05f) );
+  
 //  light.setAttenuation(0.5, 0, 0);
 //  setAttenuation(float constant=1.f, float linear=0.f, float quadratic=0.f))
   
@@ -54,14 +63,32 @@ void ofApp::setup(){
   
   // start w/ mouse input disabled
   cam.disableMouseInput();
+//  cam.setFov(5);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
   
-  // move light around
-  light.setPosition(cos(ofGetElapsedTimef()) * 100.0, 40, sin(ofGetElapsedTimef()) * 100.0);
+  float d = 400.0f; // distance from center
 
+  ofPoint sp;
+  sp.set(0, 0, 400);
+  sp.rotate( ofGetElapsedTimef() * 30 , ofVec3f(1, 0, 0));
+  sun.setPosition(sp.x, sp.y, sp.z);
+  sun.lookAt(ofVec3f(0,0,0));
+  
+  // move sun around
+  //sun.setPosition(0, cos(ofGetElapsedTimef()) * d , sin(ofGetElapsedTimef()) * d);
+  
+  
+  // move moon around
+  //moon.rotateAround(ofGetElapsedTimef(), ofVec3f(1,0,0), ofVec3(0,0,0))
+  ofPoint mp;
+  mp.set(0, 0, 400);
+  mp.rotate( ofGetElapsedTimef() * 30 + 180 , ofVec3f(1, 0, 0));
+//  moon.setPosition(0, (cos(ofGetElapsedTimef())) * d , sin(ofGetElapsedTimef()) * d);
+  moon.setPosition(mp.x, mp.y, mp.z);
+  moon.lookAt(ofVec3f(0, 0, 0));
 }
 
 //--------------------------------------------------------------
@@ -84,9 +111,12 @@ void ofApp::draw(){
   // enable lighting
   ofEnableLighting();
   //  ofEnableSeparateSpecularLight();
-  light.enable();
+  sun.enable();
+  moon.enable();
   //	light.setGlobalPosition(1000, 1000, 1000);
   //	light.lookAt(ofVec3f(0,0,0));
+  
+  
   
 
   // start material
@@ -111,20 +141,27 @@ void ofApp::draw(){
   
   // draw light position
   if (editMode) {
+    
+    // draw grey lines to lights
     ofSetColor(ofColor::gray);
     ofSetLineWidth(1);
-    ofLine(light.getPosition(), ofVec3f(0));
+    ofLine(sun.getPosition(),  ofVec3f(0));
+    ofLine(moon.getPosition(), ofVec3f(0));
+    
+    // draw lights
     ofFill();
-    ofSetColor(light.getDiffuseColor());
-    light.draw();
+    ofSetColor(sun.getDiffuseColor());
+    sun.draw();
+    ofSetColor(moon.getDiffuseColor());
+    moon.draw();
   }
   
   // draw verts and wireframe when editing
   if (editMode) {
     // draw wireframe
-    //ofSetColor(ofColor::yellow);
-    //glLineWidth(2);
-    mesh.drawWireframe();
+    ofSetColor(ofColor::yellow);
+    glLineWidth(2);
+    sceneMesh.drawWireframe();
     
     // ofvbo
     // ofvbomesh
