@@ -20,6 +20,9 @@ public:
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
   
+  void loadScene();
+  void saveScene();
+  
   bool editMode,
        camMouse,
        mouseDragging,

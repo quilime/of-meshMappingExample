@@ -15,7 +15,7 @@ void ofApp::setup(){
   
   // settings
   showHelp = false;
-  editMode = true;
+  editMode = false;
   camMouse = false;
   mouseDragging = false;
   nearestIndex = 0;
@@ -50,12 +50,26 @@ void ofApp::setup(){
   moon.setDiffuseColor( ofFloatColor(0.0f, 0.0f, 0.15f) );
   moon.setSpecularColor( ofFloatColor(0.0f, 0.0f, 0.08f) );
   
-  // load camera settings
-  ofxLoadCamera(cam, "cameraSettings");
-  
   // start w/ mouse input disabled
   cam.disableMouseInput();
-//  cam.setFov(5);
+  //  cam.setFov(5);
+  
+  loadScene();
+}
+
+//--------------------------------------------------------------
+void ofApp::loadScene() {
+  ofxLoadCamera(cam, "cameraSettings");
+  mesh.load("mesh-tweaked.ply");
+  sceneMesh.clear();
+  sceneMesh.append(mesh);
+  sceneMesh.smoothNormals( normalSmoothAmt );
+}
+
+//--------------------------------------------------------------
+void ofApp::saveScene() {
+  ofxSaveCamera(cam, "cameraSettings");
+  mesh.save("mesh-tweaked.ply");
 }
 
 //--------------------------------------------------------------
