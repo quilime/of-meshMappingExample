@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxCameraSaveLoad.h"
+#include "ofxMesh.h"
 
 class ofApp : public ofBaseApp{
 public:

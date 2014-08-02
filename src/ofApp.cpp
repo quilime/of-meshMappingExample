@@ -10,6 +10,8 @@ void ofApp::setup(){
 	ofSetVerticalSync(true);
   ofSetFrameRate(60);
   ofEnableDepthTest();
+  ofSetFullscreen(true);
+
   
   // settings
   showHelp = false;
@@ -18,9 +20,6 @@ void ofApp::setup(){
   mouseDragging = false;
   nearestIndex = 0;
   normalSmoothAmt = 20;
-  
-  
-
   
 
   // set up material
@@ -32,31 +31,24 @@ void ofApp::setup(){
 
   
   // load mesh
-//	mesh.load("CircleDistortion.ply");
-  mesh.load("landscape-round.ply");
+  mesh.load("landscape.ply");
   
-
-  //sceneMesh.append(mesh);
-  //sceneMesh.smoothNormals( normalSmoothAmt );
-  
-  // reference sphere
-  sphere.setRadius( 20 );
+  // test sphere
+  sphere.setRadius(20);
   
   // set up lights
   ofSetGlobalAmbientColor(ofColor(0, 0, 0));
   ofSetSmoothLighting(true);
+  
   sun.setup();
   sun.setDirectional();
-  sun.setDiffuseColor( ofFloatColor(0.5f, 0.5f, 0.5f) );
+  sun.setDiffuseColor( ofFloatColor(0.7f, 0.7f, 0.7f) );
   sun.setSpecularColor( ofFloatColor(0.3f, 0.3f, 0.3f) );
   
   moon.setup();
   moon.setDirectional();
-  moon.setDiffuseColor( ofFloatColor(0.0f, 0.0f, 0.2f) );
-  moon.setSpecularColor( ofFloatColor(0.0f, 0.0f, 0.05f) );
-  
-//  light.setAttenuation(0.5, 0, 0);
-//  setAttenuation(float constant=1.f, float linear=0.f, float quadratic=0.f))
+  moon.setDiffuseColor( ofFloatColor(0.0f, 0.0f, 0.15f) );
+  moon.setSpecularColor( ofFloatColor(0.0f, 0.0f, 0.08f) );
   
   // load camera settings
   ofxLoadCamera(cam, "cameraSettings");
@@ -70,31 +62,26 @@ void ofApp::setup(){
 void ofApp::update(){
   
   float d = 400.0f; // distance from center
+  float speed = 13; // speed multiplier
 
-  ofPoint sp;
-  sp.set(400, 0, 0);
-  sp.rotate( ofGetElapsedTimef() * 10 , ofVec3f(0, 0, 1));
-  sun.setPosition(sp.x, sp.y, sp.z);
-  sun.lookAt(ofVec3f(0,0,0));
-  
   // move sun around
-  //sun.setPosition(0, cos(ofGetElapsedTimef()) * d , sin(ofGetElapsedTimef()) * d);
-  
+  ofPoint sp;
+  sp.set(d, 0, 0);
+  sp.rotate( ofGetElapsedTimef() * speed , ofVec3f(0, 0, 1));
+  sun.setPosition(sp);
+  sun.lookAt(ofVec3f(0, 0, 0));
   
   // move moon around
-  //moon.rotateAround(ofGetElapsedTimef(), ofVec3f(1,0,0), ofVec3(0,0,0))
   ofPoint mp;
-  mp.set(400, 0, 0);
-  mp.rotate( ofGetElapsedTimef() * 10 + 180 , ofVec3f(0, 0, 1));
-//  moon.setPosition(0, (cos(ofGetElapsedTimef())) * d , sin(ofGetElapsedTimef()) * d);
-  moon.setPosition(mp.x, mp.y, mp.z);
+  mp.set(d, 0, 0);
+  mp.rotate( ofGetElapsedTimef() * speed + 180 , ofVec3f(0, 0, 1));
+  moon.setPosition(mp);
   moon.lookAt(ofVec3f(0, 0, 0));
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
   
-
   if (editMode) {
     // if editing, show background gradient
     ofBackgroundGradient(ofColor(80), ofColor(5));
@@ -103,22 +90,14 @@ void ofApp::draw(){
     ofBackground(ofColor(0));
   }
   
-  
   // begin camera
 	cam.begin();
   
-  
   // enable lighting
   ofEnableLighting();
-  //  ofEnableSeparateSpecularLight();
   sun.enable();
   moon.enable();
-  //	light.setGlobalPosition(1000, 1000, 1000);
-  //	light.lookAt(ofVec3f(0,0,0));
   
-  
-  
-
   // start material
   material.begin();
   ofSetColor(255);
@@ -141,13 +120,11 @@ void ofApp::draw(){
   
   // draw light position
   if (editMode) {
-    
     // draw grey lines to lights
     ofSetColor(ofColor::gray);
     ofSetLineWidth(1);
     ofLine(sun.getPosition(),  ofVec3f(0));
     ofLine(moon.getPosition(), ofVec3f(0));
-    
     // draw lights
     ofFill();
     ofSetColor(sun.getDiffuseColor());
@@ -159,17 +136,13 @@ void ofApp::draw(){
   // draw verts and wireframe when editing
   if (editMode) {
     // draw wireframe
-    ofSetColor(ofColor::yellow);
-    glLineWidth(2);
-
-//    sceneMesh.drawWireframe();
+    ofSetColor(ofColor::white);
+    glLineWidth(1);
     
-    // ofvbo
-    // ofvbomesh
-    // ofxmesh
-    // ofxhemesh
-    
-//    mesh.getFace(<#int faceId#>);
+    //  NOTE :
+    // drawWireframe may draw incorrectly when compiled for ARM
+    // openframeworks bug?
+    mesh.drawWireframe();
     
     // draw verts
     ofSetColor(ofColor::white);
