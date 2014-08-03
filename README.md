@@ -32,7 +32,11 @@ Mesh Editor View
 
 # Copyright
 
-(c) 2014- [Gabriel Dunne](http://gabrieldunne.com), [blog](http://quilime.com), [@quilime](http://twitter.com/quilime)
+(c) 2014- [Gabriel Dunne](http://gabrieldunne.com)  
+
+contact
+- [blog](http://quilime.com)
+- [twitter](http://twitter.com/quilime)
 
 
 # Software License
