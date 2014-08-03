@@ -30,9 +30,7 @@ Mapped Geometry IRL
 Mesh Editor View
 
 
-# Copyright
-
-(c) 2014- Gabriel Dunne
+Copyright (c) 2014- Gabriel Dunne, All rights reserved
 
 - [www](http://gabrieldunne.com)
 - [blog](http://quilime.com)
